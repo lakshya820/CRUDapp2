@@ -3,10 +3,13 @@ const app = express();
 const mysql = require('mysql');
 const cors = require("cors");
 
+app.use(cors());
+app.use(express.json());
+
 const db = mysql.createConnection({
     user:'root' ,
     host:'localhost' ,
-    password:'' ,
+    password:'password' ,
     database: 'spotify-clone' ,
 })
 
@@ -16,7 +19,7 @@ app.post('/create', (req, res) => {
     const dor=req.body.dor;
 
     db.query(
-        "insert into songs(songname,artist,dor) values(?,?,?)",
+        "insert into songs(name,artist,dor) values(?,?,?)",
          [name,artist,dor], 
          (err,result ) => {
             if(err){
@@ -41,9 +44,7 @@ app.get("/songs", (req, res) => {
   
   app.put("/update", (req, res) => {
     const id = req.body.id;
-    const wage = req.body.wage;
-    db.query(
-      "UPDATE songs SET artist = ? WHERE id = ?",
+    db.query("UPDATE songs SET artist = ? WHERE id = ?",
       [artist, id],
       (err, result) => {
         if (err) {
@@ -51,8 +52,7 @@ app.get("/songs", (req, res) => {
         } else {
           res.send(result);
         }
-      }
-    );
+      });
   });
   
   app.delete("/delete/:id", (req, res) => {
@@ -67,5 +67,5 @@ app.get("/songs", (req, res) => {
   });
 
 app.listen(3000, ()=> {
-    console.log("Hey your server is running on server 300");
+    console.log("Hey your server is running on server 3000");
 });

@@ -8,33 +8,29 @@ function App() {
   const [dor, setDor] = useState("");
 
   const [newArtist, setNewArtist] = useState("");
+
   const [songsList, setSongsList] = useState([]);
 
   const addSongs = () => {
-    Axios.post("http://localhost:3001/create", {
+    Axios.post("http://localhost:3000/create", {
       name: name,
       artist: artist,
       dor: dor,
     }).then(() => {
-      setSongsList([
-        ...songsList,
-        {
-          name: name,
-          artist: artist,
-          dor: dor,
-        },
-      ]);
-    });
-  };
+      console.log("success");
+      
+      });
+    };
+  
 
   const getSongs = () => {
-    Axios.get("http://localhost:3001/employees").then((response) => {
+    Axios.get("http://localhost:3000/songs").then((response) => {
       setSongsList(response.data);
     });
   };
 
   const updateSongsArtist = (id) => {
-    Axios.put("http://localhost:3001/update", { artist: newArtist, id: id }).then(
+    Axios.put("http://localhost:3000/update", { artist: newArtist, id: id }).then(
       (response) => {
         setSongsList(
           songsList.map((val) => {
@@ -53,7 +49,7 @@ function App() {
   };
 
   const deleteSongs = (id) => {
-    Axios.delete(`http://localhost:3001/delete/${id}`).then((response) => {
+    Axios.delete(`http://localhost:3000/delete/${id}`).then((response) => {
       setSongsList(
         songsList.filter((val) => {
           return val.id !== id;
@@ -98,8 +94,8 @@ function App() {
             <div className="songs">
               <div>
                 <h3>Name: {val.name}</h3>
-                <h3>Age: {val.artist}</h3>
-                <h3>Country: {val.dor}</h3>
+                <h3>Artist: {val.artist}</h3>
+                <h3>dor: {val.dor}</h3>
 
               </div>
               <div>
